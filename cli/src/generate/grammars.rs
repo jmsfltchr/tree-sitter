@@ -4,7 +4,7 @@ use std::collections::HashMap;
 use std::fmt;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
-pub(crate) enum VariableType {
+pub enum VariableType {
     Hidden,
     Auxiliary,
     Anonymous,
@@ -14,14 +14,14 @@ pub(crate) enum VariableType {
 // Input grammar
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub(crate) struct Variable {
+pub struct Variable {
     pub name: String,
     pub kind: VariableType,
     pub rule: Rule,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(crate) enum PrecedenceEntry {
+pub enum PrecedenceEntry {
     Name(String),
     Symbol(String),
 }
@@ -42,7 +42,7 @@ pub struct InputGrammar {
 // Extracted lexical grammar
 
 #[derive(Debug, PartialEq, Eq)]
-pub(crate) struct LexicalVariable {
+pub struct LexicalVariable {
     pub name: String,
     pub kind: VariableType,
     pub implicit_precedence: i32,
@@ -50,7 +50,7 @@ pub(crate) struct LexicalVariable {
 }
 
 #[derive(Debug, Default, PartialEq, Eq)]
-pub(crate) struct LexicalGrammar {
+pub struct LexicalGrammar {
     pub nfa: Nfa,
     pub variables: Vec<LexicalVariable>,
 }
@@ -58,7 +58,7 @@ pub(crate) struct LexicalGrammar {
 // Extracted syntax grammar
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
-pub(crate) struct ProductionStep {
+pub struct ProductionStep {
     pub symbol: Symbol,
     pub precedence: Precedence,
     pub associativity: Option<Associativity>,
@@ -67,33 +67,33 @@ pub(crate) struct ProductionStep {
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
-pub(crate) struct Production {
+pub struct Production {
     pub steps: Vec<ProductionStep>,
     pub dynamic_precedence: i32,
 }
 
 #[derive(Default)]
-pub(crate) struct InlinedProductionMap {
+pub struct InlinedProductionMap {
     pub productions: Vec<Production>,
     pub production_map: HashMap<(*const Production, u32), Vec<usize>>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub(crate) struct SyntaxVariable {
+pub struct SyntaxVariable {
     pub name: String,
     pub kind: VariableType,
     pub productions: Vec<Production>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub(crate) struct ExternalToken {
+pub struct ExternalToken {
     pub name: String,
     pub kind: VariableType,
     pub corresponding_internal_token: Option<Symbol>,
 }
 
 #[derive(Debug, Default)]
-pub(crate) struct SyntaxGrammar {
+pub struct SyntaxGrammar {
     pub variables: Vec<SyntaxVariable>,
     pub extra_symbols: Vec<Symbol>,
     pub expected_conflicts: Vec<Vec<Symbol>>,
@@ -106,7 +106,7 @@ pub(crate) struct SyntaxGrammar {
 
 #[cfg(test)]
 impl ProductionStep {
-    pub(crate) fn new(symbol: Symbol) -> Self {
+    pub fn new(symbol: Symbol) -> Self {
         Self {
             symbol,
             precedence: Precedence::None,
@@ -116,7 +116,7 @@ impl ProductionStep {
         }
     }
 
-    pub(crate) fn with_prec(
+    pub fn with_prec(
         self,
         precedence: Precedence,
         associativity: Option<Associativity>,
@@ -130,7 +130,7 @@ impl ProductionStep {
         }
     }
 
-    pub(crate) fn with_alias(self, value: &str, is_named: bool) -> Self {
+    pub fn with_alias(self, value: &str, is_named: bool) -> Self {
         Self {
             symbol: self.symbol,
             precedence: self.precedence,
@@ -142,7 +142,7 @@ impl ProductionStep {
             field_name: self.field_name,
         }
     }
-    pub(crate) fn with_field_name(self, name: &str) -> Self {
+    pub fn with_field_name(self, name: &str) -> Self {
         Self {
             symbol: self.symbol,
             precedence: self.precedence,
