@@ -27,7 +27,7 @@ pub(crate) enum PrecedenceEntry {
 }
 
 #[derive(Debug, Default, PartialEq, Eq)]
-pub(crate) struct InputGrammar {
+pub struct InputGrammar {
     pub name: String,
     pub variables: Vec<Variable>,
     pub extra_symbols: Vec<Rule>,
