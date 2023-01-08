@@ -2,13 +2,13 @@ mod binding_files;
 mod build_tables;
 mod char_tree;
 mod dedup;
-mod grammars;
+pub mod grammars;
 mod nfa;
 mod node_types;
 pub mod parse_grammar;
 mod prepare_grammar;
 mod render;
-mod rules;
+pub mod rules;
 mod tables;
 
 use self::build_tables::build_tables;
